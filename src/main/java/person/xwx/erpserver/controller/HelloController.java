@@ -15,7 +15,7 @@ import person.xwx.erpserver.model.resp.ResponseResult;
 public class HelloController {
 
     @GetMapping(value = "/hello")
-    @PreAuthorize("hasAuthority()")
+    @PreAuthorize("hasAuthority('test')")
     public ResponseResult hello() {
         return new ResponseResult<>(200,"hello",null);
     }
