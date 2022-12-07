@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import person.xwx.erpserver.entity.User;
 import person.xwx.erpserver.model.resp.ResponseResult;
@@ -43,9 +44,23 @@ public class LoginServiceImpl implements LoginService {
         }
         User principal = (User) authenticate.getPrincipal();
         String token = JwtUtils.generateToken(principal);
-        redisUtils.set("login:" + principal.getId(),principal);
-        Map<String,String> map = new HashMap<>();
-        map.put("token",token);
-        return new ResponseResult<>(200,"登陆成功",map);
+        redisUtils.set("login:" + principal.getId(), principal);
+        Map<String, String> map = new HashMap<>();
+        map.put("token", token);
+        return new ResponseResult<>(200, "登陆成功", map);
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public ResponseResult logout() {
+        //获取securityContextHolder中的用户id
+        System.out.println("1111111111111");
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        Long id = user.getId();
+        redisUtils.del("login:" + id);
+        return new ResponseResult<>(200,"注销成功",null);
     }
 }

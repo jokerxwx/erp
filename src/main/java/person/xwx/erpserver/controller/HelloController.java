@@ -1,7 +1,9 @@
 package person.xwx.erpserver.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import person.xwx.erpserver.model.resp.ResponseResult;
 
 /**
  * @author: xwx
@@ -13,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelloController {
 
     @GetMapping(value = "/hello")
-    public String hello(){
-        return "hello";
+    @PreAuthorize("hasAuthority()")
+    public ResponseResult hello() {
+        return new ResponseResult<>(200,"hello",null);
     }
 }

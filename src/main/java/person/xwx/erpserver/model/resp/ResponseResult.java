@@ -33,8 +33,11 @@ public class ResponseResult<T> {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
-//    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    //    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 //    private int total;
-
+//    public ResponseResult(Integer code, String msg) {
+//        this.code = code;
+//        this.msg = msg;
+//    }
 
 }

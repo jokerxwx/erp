@@ -46,15 +46,15 @@ public class JwtAuthnenticationTokenFilter extends OncePerRequestFilter {
             return;
         }
         //解析token
-        String id;
+        Long id;
         try {
             Claims claims = JwtUtils.parseToken(token);
-            id = claims.get("Id", String.class);
+            id = claims.get("Id", Long.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("token有问题");
         }
-        User user = (User) redisUtils.get(id);
+        User user = (User) redisUtils.get("login:" + id);
         //存入SecurityContextHolder
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user, null, null);
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,6 +23,7 @@ import person.xwx.erpserver.filter.JwtAuthnenticationTokenFilter;
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Autowired
@@ -59,7 +61,8 @@ public class SecurityConfig {
                 // 下面开始设置权限
                 .authorizeRequests(authorize -> authorize
                         // 请求放开
-                        .antMatchers("/login").anonymous()
+                        .antMatchers("/login","/user/register").anonymous()
+                        .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs").permitAll()
                         // 其他地址的访问均需验证权限
                         .anyRequest().authenticated()
                 )
@@ -67,6 +70,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthnenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
 //                // 认证用户时用户信息加载配置，注入springAuthUserService
 //                .userDetailsService(xxxAuthUserService)
+//                .logout().logoutUrl("/logout").clearAuthentication(true).and()
                 .build();
     }
 
