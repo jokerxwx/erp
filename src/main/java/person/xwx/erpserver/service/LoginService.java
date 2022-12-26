@@ -1,15 +1,15 @@
 package person.xwx.erpserver.service;
 
-import person.xwx.erpserver.entity.User;
+import person.xwx.erpserver.model.req.LoginReq;
 import person.xwx.erpserver.model.resp.ResponseResult;
 
 public interface LoginService {
     /**
      * 登录接口
-     * @param user
+     * @param loginReq
      * @return
      */
-    ResponseResult login(User user);
+    ResponseResult login(LoginReq loginReq);
 
     /**
      * 用户登出

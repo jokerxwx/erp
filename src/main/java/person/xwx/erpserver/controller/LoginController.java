@@ -1,8 +1,9 @@
 package person.xwx.erpserver.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import person.xwx.erpserver.entity.User;
+import person.xwx.erpserver.model.req.LoginReq;
 import person.xwx.erpserver.model.resp.ResponseResult;
 import person.xwx.erpserver.service.LoginService;
 
@@ -12,16 +13,18 @@ import person.xwx.erpserver.service.LoginService;
  * @Description: TODO
  */
 @RestController
+@CrossOrigin
+@RequestMapping(value = "/api")
 public class LoginController {
     @Autowired
     private LoginService loginService;
 
     @PostMapping(value = "/login")
-    public ResponseResult login(@RequestBody User user) {
-        return loginService.login(user);
+    public ResponseResult login(@RequestBody LoginReq loginReq) {
+        return loginService.login(loginReq);
     }
 
-    @GetMapping(value = "/user/logout")
+    @GetMapping(value = "/logout")
     public ResponseResult logout() {
         return loginService.logout();
     }

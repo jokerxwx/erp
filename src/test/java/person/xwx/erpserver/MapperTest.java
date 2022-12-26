@@ -3,9 +3,11 @@ package person.xwx.erpserver;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import person.xwx.erpserver.mapper.UserMapper;
+import person.xwx.erpserver.dao.MenuMapper;
+import person.xwx.erpserver.utils.RedisUtils;
+
+import java.util.List;
 
 /**
  * @author: xwx
@@ -16,9 +18,16 @@ import person.xwx.erpserver.mapper.UserMapper;
 public class MapperTest {
 
     @Autowired
-     PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
+
+    @Autowired
+    MenuMapper menuMapper;
+
+    @Autowired
+    RedisUtils redisUtils;
+
     @Test
     public void MapperTest() {
-        System.out.printf(passwordEncoder.encode("123456"));
+        System.out.println(redisUtils.get("admin"));
     }
 }

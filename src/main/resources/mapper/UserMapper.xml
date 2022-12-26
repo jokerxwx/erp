@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="person.xwx.erpserver.dao.UserMapper">
+
+    <update id="updateUser">
+        update t_user left join t_user_role tur on t_user.id = tur.user_id
+            set t_user.name = #{userReq.name}
+            set t_user.password = #{userReq.password}
+            set t_user.name = #{userReq.name}
+            set t_user.password = #{userReq.password}
+            set t_user.name = #{userReq.name}
+            set t_user.password = #{userReq.password}
+    </update>
+</mapper>

@@ -6,9 +6,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import person.xwx.erpserver.dao.MenuMapper;
+import person.xwx.erpserver.dao.RoleMapper;
 import person.xwx.erpserver.entity.User;
-import person.xwx.erpserver.mapper.UserMapper;
+import person.xwx.erpserver.dao.UserMapper;
+import person.xwx.erpserver.model.dto.UserDTO;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,6 +26,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
@@ -31,6 +38,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if ( Objects.isNull(user)){
             throw new RuntimeException("用户名或密码错误");
         }
-        return user;
+
+        List<String> list = roleMapper.selectPermissionByUserId(user.getId());
+
+        return new UserDTO(user,list);
     }
 }

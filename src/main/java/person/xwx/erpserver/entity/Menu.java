@@ -8,56 +8,51 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import person.xwx.erpserver.model.req.UserReq;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author: xwx
- * @date: 2022-11-24  18:23
- * @description: 用户表实体类
+ * @date: 2022-12-07  15:41
+ * @Description: 菜单表
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName(value = "t_user")
+@TableName(value = "t_menu")
 @JsonIgnoreProperties({"enabled", "accountNonExpired", "accountNonLocked", "credentialsNonExpired", "authorities"})
-public class User implements Serializable {
+public class Menu implements Serializable {
     /**
      * 主键ID
      */
-    @TableId(value = "id")
+    @TableId(value = "id",type = IdType.AUTO)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     /**
-     * 用户名
+     * 图标
      */
-    private String username;
+    private String icon;
+    /**
+     *
+     */
+    private Long parentid;
     /**
      * 密码
      */
-    private String password;
+    private String path;
     /**
-     * 邮箱
+     * 组件
      */
-    private String email;
+    private String component;
     /**
-     * 名字
+     *
      */
     private String name;
     /**
-     * 电话
+     * 隐藏状态（1隐藏 0不隐藏）
      */
-    private String mobile;
-    /**
-     * 账号状态（1已启用 0未启用）
-     */
-    private boolean status;
-    /**
-     * 头像
-     */
-    private String avatar;
+    private boolean hide;
     /**
      * 创建时间
      */
@@ -66,15 +61,5 @@ public class User implements Serializable {
      * 更新时间
      */
     private Date update_time;
-
-
-//    public void user(UserReq userReq) {
-//        this.id = userReq.getId();
-//        this.avatar = userReq.getAvatar();
-//        this.email = userReq.getEmail();
-//        this.mobile = userReq.getMobile();
-//        this.name = userReq.getName();
-//        this.username = userReq.getUsername();
-//
-//    }
 }
+

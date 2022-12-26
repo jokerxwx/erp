@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import person.xwx.erpserver.entity.User;
+import person.xwx.erpserver.model.dto.UserDTO;
 import person.xwx.erpserver.utils.JwtUtils;
 import person.xwx.erpserver.utils.RedisUtils;
 
@@ -52,11 +53,11 @@ public class JwtAuthnenticationTokenFilter extends OncePerRequestFilter {
             id = claims.get("Id", Long.class);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("token有问题");
+            throw new RuntimeException("token非法");
         }
-        User user = (User) redisUtils.get("login:" + id);
+        UserDTO userDTO = (UserDTO) redisUtils.get("login:" + id);
         //存入SecurityContextHolder
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user, null, null);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDTO.getUser(), null, userDTO.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         //放行
         filterChain.doFilter(request,response);
